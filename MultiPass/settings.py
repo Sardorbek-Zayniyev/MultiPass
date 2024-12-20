@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from decouple import config
+from django.contrib.messages import constants as messages
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -63,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -116,7 +119,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'satic/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
@@ -125,3 +128,71 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+MESSAGE_TAGS = {
+    messages.DEBUG: "secondary",
+    messages.INFO: "info",
+    messages.SUCCESS: "success",
+    messages.WARNING: "warning",
+    messages.ERROR: "danger",
+}
+
+# Email_Configurations
+
+
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT", cast=int)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "Your website name"
+
+# Email_Password_Auth
+
+INSTALLED_APPS += [
+    # allauth
+    'allauth',
+    'allauth.account',
+    'auth_providers.email_password_auth',
+    # OTP
+    'django_otp',        # Core OTP app
+    'django_otp.plugins.otp_email',   # Email-based OTP support
+    'django_otp.plugins.otp_static',  # Static OTP tokens
+    'django_otp.plugins.otp_totp',    # Time-based OTP token
+]
+
+MIDDLEWARE += [
+    'allauth.account.middleware.AccountMiddleware',
+    'auth_providers.email_password_auth.middleware.otp_required_middleware.OTPRequiredMiddleware',
+]
+
+TEMPLATES[0]['OPTIONS']['context_processors'] += [
+    'django.template.context_processors.request',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+# ACCOUNT_LOGIN_ON_SIGNUP = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Use email for login
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # 'optional' or 'mandatory'
+# Prevent automatic login after confirmation
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+# Avoid misleading error messages during login
+ACCOUNT_PREVENT_ENUMERATION = False
+
+ACCOUNT_RATE_LIMITS = {
+    "login_failed": "3/m",  # Limit to 5 attempts per minute and 20 attempts per hour
+    # Allow 2 password resets per minute by IP, 2 password by Email key
+    # "password_reset": ["2/m/ip", "2/m/key"],
+}
+# Session settings
+# Allow long-lived sessions when "Remember Me" is checked
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds for "Remember Me"
+
+LOGIN_REDIRECT_URL = 'redirect_after_login'
+LOGOUT_REDIRECT_URL = 'account_login'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'

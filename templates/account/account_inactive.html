@@ -1,0 +1,24 @@
+{% extends "main.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<div class="uf-form-signin">
+    <div class="text-center">
+        <a href="https://uifresh.net/">
+            <img src="{% static 'assets/img/logo-fb.png' %}" alt="" width="100" height="100">
+        </a>
+        <h1 class="text-white h3">{% translate "Account Inactive" %}</h1>
+    </div>
+    <div class="text-center mt-4">
+        <p class="text-white">
+            {% translate "This account is inactive. Please contact with administration" %}
+        </p>
+    </div>
+    <div class="d-grid mt-4 mb-4">
+        <a href="{% url 'account_login' %}" class="btn uf-btn-primary btn-lg">
+            {% translate "Return to Login" %}
+        </a>
+    </div>
+</div>
+{% endblock content %}

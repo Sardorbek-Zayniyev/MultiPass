@@ -1,0 +1,32 @@
+{% extends "main.html" %}
+{% load i18n %}
+{% load allauth %}
+{% load static %}
+
+{% block content %}
+<div style="width: 100%; max-width: 550px; padding: 15px; margin: auto;" class="bek">
+    <div class="text-center">
+        <a href="https://uifresh.net/">
+            <img src="{% static 'assets/img/logo-fb.png' %}" alt="Logo" width="100" height="100">
+        </a>
+        <h1 class="text-white h3">{% trans "Verify Your Email Address" %}</h1>
+    </div>
+
+    <div class="text-center mt-4">
+        <p class="text-black">
+            {% blocktrans %}
+                This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your email address.
+            {% endblocktrans %}
+        </p>
+        <p class="text-black">
+            {% blocktrans %}
+                We have sent an email to you for verification. Please click on the link inside that email. If you do not see the verification email in your main inbox, check your spam folder. Otherwise contact us if you do not receive it within a few minutes.
+            {% endblocktrans %}
+        </p>
+        <p class="text-white">
+            <strong>{% trans "Note:" %}</strong>
+                you can still <a href=" {% url 'account_email' %}" class="text-succsess">change your email address</a>.
+        </p>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="uf-form-signin">
+    <h1 class="text-white text-center">Verify Email OTP</h1>
+    <h1 class="text-black text-center h5">
+        We’ve sent a code to
+        <a style='color:rgb(0, 0, 124);' href="https://mail.google.com/mail/?view=cm&fs=1&to={{ user.email }}" target="_blank"
+            class="text-succsess">
+            {{ user.email}}</a>.
+        The code expires shortly, so please enter it soon.
+         Make sure you're logged into the correct account!
+    </h1> 
+    <form method="post">
+        {% csrf_token %}
+        <div class="input-group uf-input-group input-group-lg mb-3">
+            <span class="input-group-text fa fa-key"></span>
+            <input type="text" name="otp" placeholder="Enter OTP" class="form-control" required>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Verify OTP</button>
+        </div>
+    </form>
+    <div class="mt-4 text-center">
+        <a href="{% url 'generate_email_otp' %}">Resend OTP</a><br>
+        <strong> <a href='' onclick="window.history.back(); return false;" >Back</a></strong>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<div class="uf-form-signin">
+    <div class="text-center">
+        <a href="https://uifresh.net/">
+            <img src="{% static 'assets/img/logo-fb.png' %}" alt="" width="100" height="100">
+        </a>
+        <h1 class="text-white h3">{% trans "Verify Your Email Address" %}</h1>
+    </div>
+    <div class="text-center mb-4">
+        <p class="text-black  h5">
+            {% blocktrans %}
+                We have sent an email to you for verification. Follow the link provided to finalize the signup process.
+                If you do not see the verification email in your main inbox, check your spam folder.
+                Please contact us if you do not receive the verification email within a few minutes.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+{% endblock content %}
