@@ -1,0 +1,47 @@
+{% extends "main.html" %}
+{% load i18n %}
+{% load allauth %}
+
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock head_title %}
+
+{% block content %}
+<div class="container mt-10 uf-form-signin" style="background-color: white; padding: 2em; border-radius: 20px; box-shadow: 0 14px 16px rgba(0,0 ,0 , 1.4);">
+    <div class="text-center">
+        {% if provider.name == "Google" %}
+        <div class="mt-5">
+            <p class="h3" style="color: black;">Welcome! Sign in using your</p>
+            <div class="mt-2">
+                <span class="google-logo" style="font-size:50px; font-weight: bold;">
+                    <span style="color: #4285F4;">G</span>
+                    <span style="color: #EA4335;">o</span>
+                    <span style="color: #FBBC05;">o</span>
+                    <span style="color: #4285F4;">g</span>
+                    <span style="color: #34A853;">l</span>
+                    <span style="color: #EA4335;">e</span>
+                </span>
+                <p class="h5" style="color: black;">account.</p>
+            </div>
+        </div>
+        {% elif provider.name == "Facebook" %}
+        <div class="mt-5">
+            <h1 class="h3" style="color: black;">Sign In With <span style="color: blue;">{{ provider.name }}</span></h1>
+            <p class="h5" style="color: black;">Welcome! Sign in using your Facebook account.</p>
+        </div>
+        {% else %}
+        <div class="mt-5">
+            <h1 class="h3" style="color: black;">Sign In Via {{ provider.name }}</h1>
+            <p class="h5" style="color: black;">You are about to sign in using a third-party account from {{ provider.name }}.</p>
+        </div>
+        {% endif %}
+
+        <form class="mt-4" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn uf-btn-primary btn-lg">
+                {% trans "Continue" %}
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

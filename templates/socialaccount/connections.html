@@ -1,0 +1,48 @@
+{% extends "main.html" %}
+{% load allauth i18n %}
+{% load static %}
+
+{% block head_title %}
+    Account Connections
+{% endblock head_title %}
+
+{% block content %}
+<div class="uf-form-signin">
+    <div class="text-center mb-4">
+        <a href="https://uifresh.net/">
+            <img src='{% static "assets/img/logo-fb.png" %}' alt="Logo" width="100" height="100">
+        </a>
+        <h1 class="text-black h3">Account Connections</h1>
+    </div>
+
+    {% if form.accounts %}
+        <p class="text-black mb-3">
+            You can sign in to your account using any of the following third-party accounts:
+        </p>
+        <form method="POST" action="{% url 'socialaccount_connections' %}" class="mt-4">
+            {% csrf_token %}
+            {% for acc in form.fields.account.choices %}
+                {% with account=acc.0.instance.get_provider_account %}
+                <div class="text-center text-white">
+                    <span>{{ account.get_brand.name }}</span>
+                </div>
+                <div class="input-group uf-input-group input-group-lg mb-3">
+                    <input type="radio" name="account" id="id_account_{{ account.account.pk }}" value="{{ account.account.pk }}">
+                    <label for="id_account_{{ account.account.pk }}" class="form-control">{{ account }}</label>
+                    &nbsp;
+                </div>
+                {% endwith %}
+            {% endfor %}
+            <div class="d-grid mb-4">
+                <button type="submit" class="btn uf-btn-primary btn-lg">Remove</button>
+            </div>
+        </form>
+    {% else %}
+        <p class="text-black">You currently have no third-party accounts connected to this account.</p>
+    {% endif %}
+
+    <h2 class="text-black mt-5 h4">Add a Third-Party Account</h2>
+    {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
+    {% include "socialaccount/snippets/login_extra.html" %}
+</div>
+{% endblock content %}

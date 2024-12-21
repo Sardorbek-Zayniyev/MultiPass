@@ -136,9 +136,9 @@ MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
 
+# Email_Password_Auth conf starting
+
 # Email_Configurations
-
-
 EMAIL_HOST = config("EMAIL_HOST")
 EMAIL_PORT = config("EMAIL_PORT", cast=int)
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
@@ -146,7 +146,6 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "Your website name"
 
-# Email_Password_Auth
 
 INSTALLED_APPS += [
     # allauth
@@ -196,3 +195,31 @@ SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds for "Remember Me"
 LOGIN_REDIRECT_URL = 'redirect_after_login'
 LOGOUT_REDIRECT_URL = 'account_login'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+
+# Email_Password_Auth conf ending
+
+
+# Google_auth starting
+INSTALLED_APPS += [
+    'auth_providers.google_auth',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+]
+SITE_ID = 1
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': config('client_id'),
+            'secret': config('secret'),
+            'key': ''
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+    }
+}
+
+# Google_auth ending

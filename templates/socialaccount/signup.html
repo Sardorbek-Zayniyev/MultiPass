@@ -1,0 +1,28 @@
+{% extends "main.html" %}
+{% load i18n %}
+{% load allauth %}
+
+{% block content %}
+<div class="container mt-10 uf-form-signin">
+    <div class="text-center">
+        <h1 class="h3" style="color: black;">Sign Up</h1>
+        <p class="h5 mt-3" style="color: black;">
+            You are about to use your <span style="font-weight:bold;">{{ account.get_provider.name }}</span> account to login to {{ site.name }}. As a final
+            step, please complete the following form:
+        </p>
+        <form class=" mt-4" method="post" action="{% url "socialaccount_signup" %}">
+            {% csrf_token %}
+            <div class="input-group uf-input-group input-group-lg mb-3">
+                <span class="input-group-text fa fa-envelope"></span>
+                <input type="text" name='email' class="form-control" value="{{ form.email.value }}" readonly>
+                {{ form.email.errors }}
+            </div>
+    
+            <button type="submit" class="btn uf-btn-primary btn-lg mt-3">
+                Sign Up
+            </button>
+        </form>
+
+    </div>
+</div>
+{% endblock content %}

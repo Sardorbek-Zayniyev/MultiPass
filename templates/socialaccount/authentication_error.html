@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+{% load i18n %}
+{% load allauth %}
+{% block content %}
+<div class="container mt-10 uf-form-signin" style="background-color: white; padding: 2em; border-radius: 20px; box-shadow: 0 14px 16px rgba(0,0 ,0 , 1.4);">
+
+    <div class="text-center">
+        <h1 class="text-black" style="font-size: 24px;">Third-Party Login Failure</h1>
+        <p>
+            An error occurred while attempting to login via your third-party account.
+        </p>
+    </div>
+    <ul>
+        <strong><li><a href="{% url 'account_email' %}">Change Email</a></li>                       </strong>
+        <strong><li><a href="{% url 'account_change_password' %}">Change Password</a></li></strong>
+        <strong><li><a href="{% url 'socialaccount_connections' %}">Account Connections</a></li></strong>
+        <strong><li><a href="{% url 'account_logout' %}">Sign Out</a></li></strong>
+    </ul>
+        <div class="text-center mt-1">
+            <strong><a href="{% url 'account_login' %}"> Back to Login</a></strong>
+        </div>
+</div>
+{% endblock content %}
