@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure--t&6j5l$bmh5a$9x-=q#_$m96i$hwn_6@+oivb+h=5q9+$gj5i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '8630-185-163-26-70.ngrok-free.app']
 
 
 # Application definition
@@ -223,3 +223,37 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Google_auth ending
+
+
+# Facebook_auth starting
+INSTALLED_APPS += [
+    'auth_providers.facebook_auth',
+    'allauth.socialaccount.providers.facebook',
+]
+SOCIALACCOUNT_PROVIDERS.update({
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SDK_VERSION': 'v12.0',
+        'SCOPE': ['email', 'public_profile'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'en_US',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v12.0',
+        'APP': {
+            'client_id': config('FACEBOOK_CLIENT_ID'),
+            'secret': config('FACEBOOK_SECRET'),
+            'key': ''
+        },
+    }
+})
+
+# Facebook_auth ending
