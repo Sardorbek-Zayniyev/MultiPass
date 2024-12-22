@@ -29,6 +29,11 @@
             <h1 class="h3" style="color: black;">Sign In With <span style="color: blue;">{{ provider.name }}</span></h1>
             <p class="h5" style="color: black;">Welcome! Sign in using your Facebook account.</p>
         </div>
+        {% elif provider.name == "Twitter" %}
+        <div class="mt-5">
+            <h1 class="h3" style="color: black; ">Sign In Via <span  style="color: black; font-weight: bold;"> {{ provider.name }} </span> </h1>
+            <p class="h5" style="color: black;">Welcome! Sign in using your Twitter account.</p>
+        </div>
         {% else %}
         <div class="mt-5">
             <h1 class="h3" style="color: black;">Sign In Via {{ provider.name }}</h1>

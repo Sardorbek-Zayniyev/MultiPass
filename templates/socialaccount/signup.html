@@ -14,10 +14,9 @@
             {% csrf_token %}
             <div class="input-group uf-input-group input-group-lg mb-3">
                 <span class="input-group-text fa fa-envelope"></span>
-                <input type="text" name='email' class="form-control" value="{{ form.email.value }}" readonly>
-                {{ form.email.errors }}
-            </div>
-    
+                <input type="text" name='email' class="form-control" value="{{ form.email.value }}">
+            </div> 
+            {{ form.email.errors }}
             <button type="submit" class="btn uf-btn-primary btn-lg mt-3">
                 Sign Up
             </button>

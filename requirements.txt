@@ -7,7 +7,9 @@ cryptography==44.0.0
 Django==5.1.4
 django-allauth==65.3.0
 django-otp==1.5.4
+facebook-sdk==3.1.0
 idna==3.10
+oauthlib==3.2.2
 packaging==24.2
 pipdeptree==2.24.0
 pycparser==2.22
@@ -15,6 +17,7 @@ pydantic_core==2.27.2
 PyJWT==2.10.1
 python-decouple==3.8
 requests==2.32.3
+requests-oauthlib==2.0.0
 sqlparse==0.5.3
 typing_extensions==4.12.2
 urllib3==2.2.3

@@ -27,8 +27,13 @@ SECRET_KEY = 'django-insecure--t&6j5l$bmh5a$9x-=q#_$m96i$hwn_6@+oivb+h=5q9+$gj5i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '8630-185-163-26-70.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '8630-185-163-26-70.ngrok-free.app',
+                 '74cd-185-163-26-70.ngrok-free.app']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://74cd-185-163-26-70.ngrok-free.app'
+
+]
 
 # Application definition
 
@@ -136,6 +141,7 @@ MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
 
+
 # Email_Password_Auth conf starting
 
 # Email_Configurations
@@ -211,8 +217,8 @@ SITE_ID = 1
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': config('client_id'),
-            'secret': config('secret'),
+            'client_id': config('GOOGLE_CLIENT_ID'),
+            'secret': config('GOOGLE_SECRET'),
             'key': ''
         },
         'SCOPE': [
@@ -221,7 +227,6 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
     }
 }
-
 # Google_auth ending
 
 
@@ -257,3 +262,18 @@ SOCIALACCOUNT_PROVIDERS.update({
 })
 
 # Facebook_auth ending
+
+# Twitter_auth starting
+INSTALLED_APPS += [
+    'auth_providers.twitter_oauth',
+    'allauth.socialaccount.providers.twitter',
+]
+SOCIALACCOUNT_PROVIDERS.update({
+    'twitter': {
+        'APP': {
+            'client_id': config('TWITTER_CLIENT_ID'),
+            'secret': config('TWITTER_SECRET'),
+        },
+    }
+})
+# Twitter_auth ending
