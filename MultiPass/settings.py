@@ -277,3 +277,11 @@ SOCIALACCOUNT_PROVIDERS.update({
     }
 })
 # Twitter_auth ending
+
+
+# Telegram_auth starting
+
+INSTALLED_APPS += [
+    'auth_providers.telegram_auth',
+]
+# Telegram_auth starting

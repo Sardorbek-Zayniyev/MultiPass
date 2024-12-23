@@ -26,4 +26,5 @@ urlpatterns = [
     path('', views.profile, name='profile'),
     path('redirect-after-login', views.redirect_after_login,
          name='redirect_after_login'),
+    path('accounts/telegram/', include('auth_providers.telegram_auth.urls')),
 ]

@@ -1,12 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib import messages
 from auth_providers.email_password_auth.models import Profile
-from allauth.account.models import EmailAddress
-from allauth.account.utils import send_email_confirmation
-
 
 @login_required(login_url='account_login')
 def profile(request):

@@ -37,6 +37,9 @@
                 <button type="submit" class="btn uf-btn-primary btn-lg">Remove</button>
             </div>
         </form>
+            <div class="mt-4 text-center">
+            <strong> <a href="{% url 'profile' %}">Profile</a></strong>
+            </div>
     {% else %}
         <p class="text-black">You currently have no third-party accounts connected to this account.</p>
     {% endif %}
