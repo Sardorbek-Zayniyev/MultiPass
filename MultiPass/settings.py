@@ -285,3 +285,12 @@ INSTALLED_APPS += [
     'auth_providers.telegram_auth',
 ]
 # Telegram_auth starting
+
+
+
+# Phone_number_auth starting
+
+INSTALLED_APPS += [
+    'auth_providers.phone_number_auth',
+]
+# Phone_number_auth starting

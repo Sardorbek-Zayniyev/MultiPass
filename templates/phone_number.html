@@ -1,0 +1,102 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+<div class="uf-form-signin">
+    <div class="text-center">
+        <a href="https://uifresh.net/"><img src="{% static 'assets/img/logo-fb.png' %}" alt="" width="100"
+                height="100"></a>
+        <h1 class="text-white h3">Account Login</h1>
+    </div>
+    <form id="phone-login-form" action="javascript:void(0);" method="POST" class="mt-4">
+        {% csrf_token %}
+        <div class="input-group uf-input-group input-group-lg mb-3">
+            <span class="input-group-text fa fa-user"></span>
+            <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="Enter Phone Number">
+        </div>
+        <div id="recaptcha-container"></div>
+        <div class="d-grid mb-4">
+            <button type="button" id="send-otp-btn" class="btn uf-btn-primary btn-lg">Send OTP</button>
+        </div>
+    </form>
+
+    <form id="otp-verification-form" action="javascript:void(0);" method="POST" class="mt-4 d-none">
+        {% csrf_token %}
+        <div class="input-group uf-input-group input-group-lg mb-3">
+            <span class="input-group-text fa fa-lock"></span>
+            <input type="text" id="otp" name="otp" class="form-control" placeholder="Enter OTP">
+        </div>
+        <div class="d-grid mb-4">
+            <button type="button" id="verify-otp-btn" class="btn uf-btn-primary btn-lg">Verify OTP</button>
+        </div>
+    </form>
+</div>
+
+<script type="module">
+    import { auth, RecaptchaVerifier, signInWithPhoneNumber } from "{% static 'assets/js/firebase/firebase-config.js' %}";
+
+    // Set up URLs for Django views
+    const sendOtpUrl = "{% url 'send_otp' %}";
+    const verifyOtpUrl = "{% url 'verify_otp' %}";
+
+    // Initialize reCAPTCHA
+    const setupRecaptcha = () => {
+        window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+            size: 'invisible', // Set size to "normal" or "compact" for visible reCAPTCHA
+            callback: (response) => {
+                console.log("reCAPTCHA solved");
+            },
+        }, auth);
+    };
+
+    // Handle "Send OTP" button click
+    document.getElementById("send-otp-btn").addEventListener("click", async () => {
+        const phoneNumber = document.getElementById("phone_number").value;
+        console.log("Phone number entered:", phoneNumber); // Log phone number
+    
+        if (!phoneNumber) {
+            alert("Please enter a valid phone number.");
+            return;
+        }
+    
+        try {
+            setupRecaptcha();
+            const appVerifier = window.recaptchaVerifier;
+    
+            const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+            window.confirmationResult = confirmationResult; // Store confirmation result for later use
+            alert("OTP sent successfully!");
+    
+            // Show OTP verification form
+            document.getElementById("phone-login-form").classList.add("d-none");
+            document.getElementById("otp-verification-form").classList.remove("d-none");
+        } catch (error) {
+            console.error("Error sending OTP:", error);
+            alert("Failed to send OTP. Try again.");
+        }
+    });
+    // Handle "Verify OTP" button click
+    document.getElementById("verify-otp-btn").addEventListener("click", async () => {
+        const otp = document.getElementById("otp").value;
+
+        if (!otp) {
+            alert("Please enter the OTP.");
+            return;
+        }
+
+        try {
+            // Verify the OTP with Firebase
+            const result = await window.confirmationResult.confirm(otp);
+            const user = result.user;
+            alert("Phone number verified successfully!");
+
+            // Redirect to profile or dashboard
+            window.location.href = "{% url 'profile' %}";
+        } catch (error) {
+            console.error("Error verifying OTP:", error);
+            alert("Failed to verify OTP. Try again.");
+        }
+    });
+</script>
+{% endblock content %}
+
